@@ -12,9 +12,18 @@ import { pluck } from 'rxjs/operators';
 })
 export class MixChartComponent implements OnInit {
 
+  intervals = [
+    { key: "3600", value: "Last Hour" },
+    { key: "21600", value: "Last 6 Hours" },
+    { key: "43200", value: "Last 12 Hours" },
+    { key: "86400", value: "Last 24 Hours" },
+    { key: "604800", value: "Last 1 Week" }
+  ];
+
   loading;
+  interval;
   //line chart 1
-  cpuChartData:any[];
+  cpuChartData: any[];
   cpuChartLabels;
   cpuData;
   cpuLabels;
@@ -58,11 +67,11 @@ export class MixChartComponent implements OnInit {
   lineChartType = 'line';
 
   // line 
-  diskChartData:any[];
+  diskChartData: any[];
   diskChartLabels;
   diskData;
   diskLabels;
-  
+
   //operationData
   optChartData;
   optChartLabels;
@@ -78,30 +87,30 @@ export class MixChartComponent implements OnInit {
   constructor(private _api: ServiceService) { }
 
   ngOnInit() {
-    this.getGraphData();
+    this.onIntervalChange('3600');
   }
 
   //"host_id=51723&host=172.16.116.232"
 
-  getGraphData() {
+  getGraphData(int) {
     //let payload = 'host_id=51723&host=172.16.116.232';
     this.loading = true;
-    let payload = 'host_id=44763&host=172.16.113.12&interval=43200';
+    let payload = 'host_id=44763&host=172.16.113.12&interval=' + int;
     this._api.getAllDataZabbix(payload, 'myaccount/api/v1/monitor/server_health.php').pipe(
       pluck('data')
     ).subscribe((res: any) => {
       console.log(res)
       this.getChartData(res);
-      
+
       this.cpuChartData = [{ 'data': this.cpuData, label: '' }];
       this.cpuChartLabels = this.cpuLabels;
 
       this.diskChartData = [{ 'data': this.diskLabels, label: '' }];
       this.diskChartLabels = this.diskLabels;
-      
+
       this.optChartData = [{ 'data': this.optData, label: '' }];
       this.optChartLabels = this.optLabels;
-      
+
       this.networkChartData = [{ 'data': this.networkData, label: '' }];
       this.networkChartLabels = this.networkLabels;
       this.loading = false;
@@ -118,7 +127,7 @@ export class MixChartComponent implements OnInit {
       });
   }
 
-  getChartData(res){
+  getChartData(res) {
     //cpu
     this.cpuLabels = [...res.cpu.labels];
     this.cpuData = [...res.cpu.results];
@@ -133,33 +142,37 @@ export class MixChartComponent implements OnInit {
 
     //disk_iops_write
     this.optLabels = this.formatedData([...res.disk_iops_write.labels]);
-    
+
     const chartData = this.formatedData([...res.disk_iops_write.results]);
     this.optData = chartData;
 
 
 
-   // let formatedData = chartData.map(item=> item)
+    // let formatedData = chartData.map(item=> item)
 
 
     console.log(chartData)
   }
 
-  formatedData(data){
-    let prekey =null;
+  formatedData(data) {
+    let prekey = null;
     let currentkey = null;
     let newarray = [];
     for (const key of data) {
-      if(currentkey !== null){
+      if (currentkey !== null) {
         prekey = currentkey;
       }
       currentkey = key;
 
-      if(prekey !== currentkey){
+      if (prekey !== currentkey) {
         newarray.push(currentkey);
       }
     }
     return newarray;
+  }
+
+  onIntervalChange(value: any) {
+    this.getGraphData(value);
   }
 
 }

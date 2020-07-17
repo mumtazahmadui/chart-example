@@ -1,6 +1,14 @@
 <div class="row">
-    <div class="col-6">
-            <h5>Processor Load</h5>
+    <div class="col-9">&nbsp;</div>
+    <div class="col-3 float-right">
+      <select class="form-control my-2 font-md float-right" name="interval" (change)="onIntervalChange($event.target.value)">
+        <option *ngFor="let interval of intervals" [value]="interval.key">{{interval.value}}</option>
+      </select>
+    </div>
+  </div>
+<div class="row">
+    <div class="col-6 mb-4">
+        <h5>Processor Load</h5>
         <div class="chart-wrapper">
             <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
               <div class="spinner-border spinner-border-sm text-warning" role="status">
@@ -18,7 +26,7 @@
             </canvas>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 mb-4">
         <h5>Disk Read Operation </h5>
         <div class="chart-wrapper">
             <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
@@ -37,9 +45,8 @@
             </canvas>
         </div>
     </div>
-</div>
-<div class="row mt-4">
-    <div class="col-6">
+    
+    <div class="col-6 mb-4">
             <h5>Disk Write Operation </h5>
         <div class="chart-wrapper">
             <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
@@ -54,12 +61,11 @@
                 [options]="lineChartOptions"
                 [colors]="lineChartColors" 
                 [legend]="lineChartLegend" 
-                [chartType]="lineChartType" 
-                [plugins]="lineChartPlugins">
+                [chartType]="lineChartType">
             </canvas>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-6 mb-4">
         <h5>Network Traffic (eth0) </h5>
         <div class="chart-wrapper">
             <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
