@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-6">
+            <h5>Processor Load</h5>
+        <div class="chart-wrapper">
+            <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
+              <div class="spinner-border spinner-border-sm text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+              </div> Fetching...
+            </div>
+            <canvas baseChart 
+                *ngIf="cpuChartData && cpuChartData.length > 0 "
+                [datasets]="cpuChartData" 
+                [labels]="cpuChartLabels" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-6">
+        <h5>Disk Read Operation </h5>
+        <div class="chart-wrapper">
+            <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
+                <div class="spinner-border spinner-border-sm text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+                </div> Fetching...
+            </div>
+            <canvas baseChart 
+                *ngIf="diskChartData && diskChartData.length > 0 "
+                [datasets]="diskChartData" 
+                [labels]="diskChartLabels" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType">
+            </canvas>
+        </div>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-6">
+            <h5>Disk Write Operation </h5>
+        <div class="chart-wrapper">
+            <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
+                <div class="spinner-border spinner-border-sm text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+                </div> Fetching...
+            </div>
+            <canvas baseChart 
+                *ngIf="optChartData && optChartData.length > 0 "
+                [datasets]="optChartData" 
+                [labels]="optChartLabels" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType" 
+                [plugins]="lineChartPlugins">
+            </canvas>
+        </div>
+    </div>
+    <div class="col-6">
+        <h5>Network Traffic (eth0) </h5>
+        <div class="chart-wrapper">
+            <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
+                <div class="spinner-border spinner-border-sm text-warning" role="status">
+                <span class="sr-only">Loading...</span>
+                </div> Fetching...
+            </div>
+            <canvas baseChart 
+                *ngIf="networkChartData && networkChartData.length > 0 "
+                [datasets]="networkChartData" 
+                [labels]="networkChartLabels" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType">
+            </canvas>
+        </div>
+    </div>
+</div>
