@@ -1,11 +1,24 @@
-<div class="chart-wrapper">
-    <canvas baseChart 
-        [datasets]="lineChartData" 
-        [labels]="lineChartLabels" 
-        [options]="lineChartOptions"
-        [colors]="lineChartColors" 
-        [legend]="lineChartLegend" 
-        [chartType]="lineChartType" 
-        [plugins]="lineChartPlugins">
-    </canvas>
+<div class="row">
+        <div class="col-9">&nbsp;</div>
+        <div class="col-3 float-right">
+          <select class="form-control my-2 font-md float-right" name="interval" (change)="onIntervalChange($event.target.value)">
+            <option *ngFor="let interval of intervals" [value]="interval.key">{{interval.value}}</option>
+          </select>
+        </div>
+      </div>
+<div class="row">
+    <div class="col-6" *ngFor="let network of mainData; let i = index">
+        <h5>{{network.lineChartTitle}}</h5>
+        <div class="chart-wrapper">
+                <canvas baseChart
+                *ngIf="mainData && mainData.length > 0 "
+                [datasets]="network.lineChartData"
+                [labels]="network.lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType">
+            </canvas>
+        </div>
+    </div>
 </div>

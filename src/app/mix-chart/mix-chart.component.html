@@ -16,7 +16,7 @@
               </div> Fetching...
             </div>
             <canvas baseChart 
-                *ngIf="cpuChartData && cpuChartData.length > 0 "
+                *ngIf="cpuChartData && cpuChartData[0].data.length > 0 "
                 [datasets]="cpuChartData" 
                 [labels]="cpuChartLabels" 
                 [options]="lineChartOptions"
@@ -24,6 +24,9 @@
                 [legend]="lineChartLegend" 
                 [chartType]="lineChartType">
             </canvas>
+            <ng-container *ngIf="!loading && cpuChartData[0].data.length == 0">
+                    <div class="graph-no">No Data Found for "Processor Load"</div>
+                </ng-container>
         </div>
     </div>
     <div class="col-6 mb-4">
@@ -35,7 +38,7 @@
                 </div> Fetching...
             </div>
             <canvas baseChart 
-                *ngIf="diskChartData && diskChartData.length > 0 "
+                *ngIf="diskChartData && diskChartData[0].data.length > 0"
                 [datasets]="diskChartData" 
                 [labels]="diskChartLabels" 
                 [options]="lineChartOptions"
@@ -43,6 +46,9 @@
                 [legend]="lineChartLegend" 
                 [chartType]="lineChartType">
             </canvas>
+            <ng-container *ngIf="!loading && diskChartData[0].data.length == 0">
+                <div class="graph-no">No Data Found for "Disk IOPs Read"</div>
+            </ng-container>
         </div>
     </div>
     
@@ -55,7 +61,7 @@
                 </div> Fetching...
             </div>
             <canvas baseChart 
-                *ngIf="optChartData && optChartData.length > 0 "
+                *ngIf="optChartData && optChartData[0].data.length > 0 "
                 [datasets]="optChartData" 
                 [labels]="optChartLabels" 
                 [options]="lineChartOptions"
@@ -63,25 +69,33 @@
                 [legend]="lineChartLegend" 
                 [chartType]="lineChartType">
             </canvas>
+            <ng-container *ngIf="!loading && optChartData[0].data.length == 0">
+                <div class="graph-no">No Data Found for "Disk IOPs Write"</div>
+            </ng-container>
         </div>
     </div>
-    <div class="col-6 mb-4">
-        <h5>Network Traffic (eth0) </h5>
-        <div class="chart-wrapper">
-            <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
-                <div class="spinner-border spinner-border-sm text-warning" role="status">
+    
+    <div class="col-6 mb-4" *ngFor="let network of networkChartData">
+        <div class="w-100 text-center py-2 border-bottom" *ngIf="loading">
+            <div class="spinner-border spinner-border-sm text-warning" role="status">
                 <span class="sr-only">Loading...</span>
-                </div> Fetching...
-            </div>
+            </div> Fetching...
+        </div>
+        <h5>Network Traffic ({{network.title}}) </h5>
+        <div class="chart-wrapper">
+            
             <canvas baseChart 
-                *ngIf="networkChartData && networkChartData.length > 0 "
-                [datasets]="networkChartData" 
-                [labels]="networkChartLabels" 
-                [options]="lineChartOptions"
+                *ngIf="networkChartData && networkChartData[0].data.length > 0 "
+                [datasets]="network.data" 
+                [labels]="network.label" 
+                [options]="lineChartOptionsforNetwork"
                 [colors]="lineChartColors" 
                 [legend]="lineChartLegend" 
                 [chartType]="lineChartType">
             </canvas>
+            <ng-container *ngIf="!loading && networkChartData[0].data.length == 0">
+                <div class="graph-no">No Data Found for "Network Traffic {{network.title}}"</div>
+            </ng-container>
         </div>
     </div>
 </div>

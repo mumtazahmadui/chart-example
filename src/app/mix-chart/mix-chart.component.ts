@@ -22,11 +22,6 @@ export class MixChartComponent implements OnInit {
 
   loading;
   interval;
-  //line chart 1
-  cpuChartData: any[];
-  cpuChartLabels;
-  cpuData;
-  cpuLabels;
 
   lineChartOptions: any = {
     elements: {
@@ -55,6 +50,35 @@ export class MixChartComponent implements OnInit {
     responsive: true
   };
 
+  lineChartOptionsforNetwork: any = {
+    elements: {
+      point: { radius: 2 },
+      line: { tension: 0 }
+    },
+    legend: { display: false },
+    scales: {
+      xAxes: [{
+        ticks: {
+          autoSkip: true,
+          maxRotation: 45,
+          minRotation: 45
+
+        },
+      }],
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          steps: 10,
+          stepValue: 10,
+          // Include a dollar sign in the ticks
+          callback: (value) => value + 'kbps'
+        },
+      }]
+    },
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+
   lineChartColors: Color[] = [
     {
       borderColor: 'rgba(255, 99, 132, 1',
@@ -66,7 +90,14 @@ export class MixChartComponent implements OnInit {
   lineChartLegend = false;
   lineChartType = 'line';
 
-  // line 
+
+  //CPU chart 1
+  cpuChartData: any[];
+  cpuChartLabels;
+  cpuData;
+  cpuLabels;
+
+  // Disk
   diskChartData: any[];
   diskChartLabels;
   diskData;
@@ -78,11 +109,8 @@ export class MixChartComponent implements OnInit {
   optData;
   optLabels;
 
-  //operationData
+  //Network
   networkChartData;
-  networkChartLabels;
-  networkData;
-  networkLabels;
 
   constructor(private _api: ServiceService) { }
 
@@ -94,12 +122,14 @@ export class MixChartComponent implements OnInit {
 
   getGraphData(int) {
     //let payload = 'host_id=51723&host=172.16.116.232';
+    //let payload = 'host_id=44763&host=172.16.113.12&interval';
+    //let payload = 'host_id=50350&host=172.16.103.123&interval';
     this.loading = true;
     let payload = 'host_id=44763&host=172.16.113.12&interval=' + int;
     this._api.getAllDataZabbix(payload, 'myaccount/api/v1/monitor/server_health.php').pipe(
       pluck('data')
     ).subscribe((res: any) => {
-      console.log(res)
+      //console.log(res)
       this.getChartData(res);
 
       this.cpuChartData = [{ 'data': this.cpuData, label: '' }];
@@ -111,16 +141,9 @@ export class MixChartComponent implements OnInit {
       this.optChartData = [{ 'data': this.optData, label: '' }];
       this.optChartLabels = this.optLabels;
 
-      this.networkChartData = [{ 'data': this.networkData, label: '' }];
-      this.networkChartLabels = this.networkLabels;
+      this.getNetworkData(res);
+
       this.loading = false;
-
-
-      /* this.cpuGraphData(res);
-      this.diskIopsReadGraphData(res);
-      this.diskIopsWriteGraphData(res);
-      this.networkGraphData(res);
-      this.chart_loading = false; */
     },
       error => {
         console.log('getGraphData', error)
@@ -136,22 +159,25 @@ export class MixChartComponent implements OnInit {
     this.diskLabels = [...res.disk_iops_read.labels];
     this.diskData = [...res.disk_iops_read.results];
 
-    //network
-    this.networkLabels = [...res.network.eth0.in.labels];
-    this.networkData = [...res.disk_iops_read.results];
-
     //disk_iops_write
-    this.optLabels = this.formatedData([...res.disk_iops_write.labels]);
+    this.optLabels = [...res.disk_iops_write.labels]
+    this.optData = [...res.disk_iops_write.results];
+  }
 
-    const chartData = this.formatedData([...res.disk_iops_write.results]);
-    this.optData = chartData;
+  getNetworkData(res) {
+    this.networkChartData = [];
+    debugger
+    for (var key in res.network) {
+      this.lineChartOptionsforNetwork.scales.xAxes[0].ticks.maxTicksLimit = res.network[key].interval;
+      this.lineChartOptionsforNetwork.scales.yAxes[0].ticks.maxTicksLimit = 10;
 
-
-
-    // let formatedData = chartData.map(item=> item)
-
-
-    console.log(chartData)
+      let d = [{ 'data': res.network[key].in.results, label: '' }];
+      this.networkChartData.push({
+        title: key,
+        label: res.network[key].in.labels,
+        data: d,
+      });
+    }
   }
 
   formatedData(data) {

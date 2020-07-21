@@ -1,0 +1,30 @@
+
+<div class="row">
+   <div class="col-6 mb-4" *ngFor="let network of lineChartData"> 
+       
+        <h5>Network Traffic  ({{network.title}})</h5>
+        <div class="chart-wrapper">
+            <canvas baseChart 
+                [datasets]="network.data" 
+                [labels]="network.chartLabel" 
+                [options]="lineChartOptions"
+                [colors]="lineChartColors" 
+                [legend]="lineChartLegend" 
+                [chartType]="lineChartType">
+            </canvas>
+          <!--   <ng-container *ngIf="!loading && networkChartData[0].data.length == 0">
+                <div class="graph-no">No Data Found for "Network Traffic {{network.title}}"</div>
+            </ng-container> -->
+        </div>
+    </div> 
+</div>
+<!-- <div class="chart-wrapper">
+    <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType">
+    </canvas>
+</div> -->

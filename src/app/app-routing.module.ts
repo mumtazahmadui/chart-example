@@ -8,6 +8,8 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 import { MixChartComponent } from './mix-chart/mix-chart.component';
 import { NewChartComponent } from './new-chart/new-chart.component';
+import { LineChartMultipleComponent } from './line-chart-multiple/line-chart-multiple.component';
+import { LineChart3Component } from './line-chart3/line-chart3.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'line-chart' },
@@ -18,7 +20,9 @@ const routes: Routes = [
   { path: 'pie-chart', component: PieChartComponent },
   { path: 'bubble-chart', component: BubbleChartComponent },
   { path: 'mix-chart', component: MixChartComponent },
-  { path: 'cust-chart', component: NewChartComponent }
+  { path: 'cust-chart', component: NewChartComponent },
+  { path: 'line-chart-multiple', component: LineChartMultipleComponent },
+  { path: 'line-chart3', component: LineChart3Component }
 ];
 
 @NgModule({

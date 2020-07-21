@@ -14,6 +14,8 @@ import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 import { ChartsModule } from 'ng2-charts';
 import { MixChartComponent } from './mix-chart/mix-chart.component';
 import { NewChartComponent } from './new-chart/new-chart.component';
+import { LineChartMultipleComponent } from './line-chart-multiple/line-chart-multiple.component';
+import { LineChart3Component } from './line-chart3/line-chart3.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { NewChartComponent } from './new-chart/new-chart.component';
     PieChartComponent,
     BubbleChartComponent,
     MixChartComponent,
-    NewChartComponent
+    NewChartComponent,
+    LineChartMultipleComponent,
+    LineChart3Component
   ],
   imports: [
     BrowserModule,
