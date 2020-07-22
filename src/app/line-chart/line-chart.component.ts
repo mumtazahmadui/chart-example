@@ -31,7 +31,7 @@ export class LineChartComponent implements OnInit {
 
     scales: {
       yAxes: [{
-        id: 'Out',
+        id: 'In',
         type: 'linear',
         ticks: {
           // beginAtZero: true,
@@ -44,7 +44,7 @@ export class LineChartComponent implements OnInit {
         },
       },
       {
-        id: 'In',
+        id: 'Out',
         type: 'linear',
         position: 'right',
         ticks: {
@@ -68,18 +68,18 @@ export class LineChartComponent implements OnInit {
     {
       title: 'one',
       index: 0,
-      axisId: 'Out',
+      axisId: 'In',
       colorName: 'orange',
-      label: 'Traffic Out.',
+      label: 'Traffic In.',
       units: '',
       activeInBypassMode: true,
     },
     {
       title: 'two',
       index: 1,
-      axisId: 'In',
+      axisId: 'Out',
       colorName: 'green',
-      label: 'Traffic In.',
+      label: 'Traffic Out.',
       units: '',
       activeInBypassMode: true,
     },

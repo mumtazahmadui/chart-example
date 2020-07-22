@@ -1,7 +1,42 @@
-<div class="chart-wrapper">
-    <canvas baseChart 
-    [data]="doughnutChartData"
-    [labels]="doughnutChartLabels"
-    [chartType]="doughnutChartType">
-  </canvas>
-</div>
+
+
+
+<div class="row">
+    <div class="col-6">
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+        
+    </div>
+    <div class="col-4">
+       <h5 class="mb-0">Storage (100 SSD)</h5>
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [options]="doughnutChartOptions"
+            [colors]="doughnutChartColors"
+            [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-6">&nbsp;</div>
+    <div class="col-4">
+       <h5 class="mb-0">Memory (12 GB RAM)</h5>
+        <div class="chart-wrapper">
+            <canvas baseChart 
+            [data]="doughnutChartData1"
+            [labels]="doughnutChartLabels"
+            [options]="doughnutChartOptions"
+            [colors]="doughnutChartColors1"
+            [chartType]="doughnutChartType">
+          </canvas>
+        </div>
+    </div>
+  </div>
